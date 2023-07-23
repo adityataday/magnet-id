@@ -1,5 +1,6 @@
 import { GoogleMap, InfoWindow, Marker } from "@react-google-maps/api";
 import { useState } from "react";
+import { issueAttestation } from "../../utils/Attestation";
 
 export const InformationWindow = () => {
   const [mapRef, setMapRef] = useState();
@@ -46,7 +47,22 @@ export const InformationWindow = () => {
                 setIsOpen(false);
               }}
             >
-              <h3>{infoWindowData.address}</h3>
+              <div>
+                <h3>{infoWindowData.address}</h3>
+                <button
+                  onClick={() => {
+                    issueAttestation(
+                      infoWindowData.address,
+                      new Date().toISOString(),
+                      "ipfs://Qmci8DRrH3682TfRoeT2G7vD9q9TPkkytR1imSyD5T8huS"
+                    ).then((newAttestationUID) =>
+                      alert(`New attestation UID: ${newAttestationUID}`)
+                    );
+                  }}
+                >
+                  claim
+                </button>
+              </div>
             </InfoWindow>
           )}
         </Marker>
